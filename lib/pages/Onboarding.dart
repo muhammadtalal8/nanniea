@@ -1,126 +1,148 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:nanniea/pages/content_model.dart';
-import 'package:nanniea/pages/home.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Onboarding extends StatefulWidget {
-  const Onboarding({super.key});
-
+class OnboardingScreen extends StatefulWidget {
   @override
-  State<Onboarding> createState() => _OnboardingState();
+  _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingState extends State<Onboarding> {
-  int currentIndex = 0;
-  late PageController _controller;
-
-  @override
-  void initState() {
-    _controller = PageController(initialPage: 0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final PageController _controller = PageController();
+  bool isLastPage = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _controller,
-              itemCount: contents.length,
-              onPageChanged: (int index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              itemBuilder: (_, i) {
-                return Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Column(
-                    children: [
-                      SvgPicture.asset(contents[i].image, height: 300),
-                      Text(
-                        contents[i].title,
-                        style: const TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        contents[i].discription,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                contents.length,
-                (index) => buildDot(index, context),
+          PageView(
+            controller: _controller,
+            onPageChanged: (index) {
+              setState(() {
+                isLastPage = index == 2; // Change if you add more pages
+              });
+            },
+            children: [
+              OnboardingPage(
+                image: "assets/kid1.png",
+                title: "Welcome to MyApp",
+                description: "Discover amazing features with our app.",
               ),
-            ),
+              OnboardingPage(
+                image: "assets/kid2.png",
+                title: "Stay Connected",
+                description: "Always stay in touch with your favorite content.",
+              ),
+              OnboardingPage(
+                image: "assets/kid3.png",
+                title: "Get Started",
+                description: "Enjoy a seamless experience.",
+              ),
+            ],
           ),
-          Container(
-            height: 60,
-            margin: const EdgeInsets.all(40),
-            width: double.infinity,
-            child: TextButton(
-              onPressed: () {
-                if (currentIndex == contents.length - 1) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const Home()),
-                  );
-                }
-                _controller.nextPage(
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.bounceIn,
-                );
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+          Positioned(
+            bottom: 80,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: SmoothPageIndicator(
+                controller: _controller,
+                count: 3,
+                effect: SlideEffect(
+                  activeDotColor: Color.fromRGBO(104, 170, 255, 1),
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  dotColor: Colors.grey,
                 ),
               ),
-              child: Text(
-                currentIndex == contents.length - 1 ? "Continue" : "Next",
-              ),
             ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child:
+                isLastPage
+                    ? ElevatedButton(
+                      onPressed: () {
+                        // Navigate to Home Screen
+                        Navigator.pushReplacementNamed(context, '/home');
+                      },
+                      child: Text("Get Started"),
+                    )
+                    : Center(
+                      child: TextButton(
+                        onPressed: () {
+                          _controller.nextPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Text("Skip"),
+                      ),
+                    ),
           ),
         ],
       ),
     );
   }
+}
 
-  Container buildDot(int index, BuildContext context) {
-    return Container(
-      height: 10,
-      width: currentIndex == index ? 25 : 10,
-      margin: const EdgeInsets.only(right: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Theme.of(context).primaryColor,
-      ),
+class OnboardingPage extends StatelessWidget {
+  final String image;
+  final String title;
+  final String description;
+
+  OnboardingPage({
+    required this.image,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 3, // Image section takes more space
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.blue.shade50,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+              image: DecorationImage(
+                image: AssetImage(image),
+                fit: BoxFit.cover, // Ensures image fills the box
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2, // Text content takes less space
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  description,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

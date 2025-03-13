@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nanniea/pages/Onboarding.dart';
@@ -17,7 +19,7 @@ class _FirstPageState extends State<FirstPage>
     Future.delayed(const Duration(milliseconds: 5000), () {
       Navigator.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const Onboarding()));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => OnboardingScreen()));
     });
   }
 
