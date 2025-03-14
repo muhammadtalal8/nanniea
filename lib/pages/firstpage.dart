@@ -19,7 +19,7 @@ class _FirstPageState extends State<FirstPage>
     Future.delayed(const Duration(milliseconds: 5000), () {
       Navigator.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => OnboardingScreen()));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => onboardingScreen()));
     });
   }
 

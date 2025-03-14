@@ -1,12 +1,14 @@
+// ignore_for_file: camel_case_types, library_private_types_in_public_api, use_key_in_widget_constructors, file_names
+
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class onboardingScreen extends StatefulWidget {
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  _onboardingScreenState createState() => _onboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _onboardingScreenState extends State<onboardingScreen> {
   final PageController _controller = PageController();
   bool isLastPage = false;
 
@@ -92,7 +94,7 @@ class OnboardingPage extends StatelessWidget {
   final String title;
   final String description;
 
-  OnboardingPage({
+  const OnboardingPage({
     required this.image,
     required this.title,
     required this.description,
