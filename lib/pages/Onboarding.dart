@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class onboardingScreen extends StatefulWidget {
+class OnboardingScreen extends StatefulWidget {
   @override
-  _onboardingScreenState createState() => _onboardingScreenState();
+  _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _onboardingScreenState extends State<onboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
   bool isLastPage = false;
 
