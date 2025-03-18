@@ -61,7 +61,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           Positioned(
             bottom: 20,
-            right: 20,
+            right: 0,
+            left: 0,
             child:
                 isLastPage
                     ? ElevatedButton(
@@ -73,9 +74,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     )
                     : Center(
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                          iconAlignment: Alignment.centre,
-                        ),
                         onPressed: () {
                           _controller.nextPage(
                             duration: Duration(milliseconds: 500),
