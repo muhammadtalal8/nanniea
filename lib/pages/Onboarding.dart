@@ -33,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Positioned(
                     left: 0,
                     top: 0,
-                    child: Container(width: 375, height: 34),
+                    child: SizedBox(width: 375, height: 34),
                   ),
                   Positioned(
                     left: 121,
@@ -311,7 +311,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Positioned(
                     left: 0,
                     top: 0,
-                    child: Container(width: 375, height: 44),
+                    child: SizedBox(width: 375, height: 44),
                   ),
                   Positioned(
                     left: 336,
