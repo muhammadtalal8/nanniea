@@ -1,75 +1,75 @@
 import 'package:flutter/material.dart';
 
-class OnboardingCard extends StatelessWidget {
-  final String image, title, description, subtitle;
-  const OnboardingCard({
+class OnboardingCard extends StatefulWidget {
+  const OnboardingCard({super.key});
+
+  @override
+  State<OnboardingCard> createState() => _OnboardingCardState();
+}
+
+class _OnboardingCardState extends State<OnboardingCard> {
+  int _currentPage = 0; // Track the current page
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SliderDots(
+          currentPage: _currentPage,
+          totalDots: 3,
+        ), // Center the dots
+      ),
+    );
+  }
+}
+
+class SliderDots extends StatelessWidget {
+  const SliderDots({
     super.key,
-    required this.image,
-    required this.title,
-    required this.description,
-    required this.subtitle,
+    required int currentPage,
+    required int totalDots,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            height: 427,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(image),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50),
-                bottomRight: Radius.circular(50),
-              ),
-            ),
-          ),
-          SizedBox(height: 95),
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF68A9FF),
-              fontSize: 15,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-              height: 1.33,
-            ),
-          ),
+    return Row(
+      mainAxisSize: MainAxisSize.min, // Keep it compact
+      children: [
+        buildDot(isActive: true),
+        SizedBox(width: 8), // Space between dots
+        buildDot(isActive: false),
+        SizedBox(width: 8),
+        buildDot(isActive: false),
+      ],
+    );
+  }
 
-          SizedBox(
-            width: 295,
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 40,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 295,
-            child: Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color(0xFF666666),
-                fontSize: 17,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w400,
-                height: 1.29,
-              ),
-            ),
-          ),
-        ],
+  /// Builds a single dot
+  Widget buildDot({required bool isActive}) {
+    return Container(
+      width: 7,
+      height: 8,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isActive ? null : Color(0xFF666666), // Gray for inactive
+        gradient:
+            isActive
+                ? LinearGradient(
+                  colors: [Color(0xFF68A9FF), Color(0xFFFF96C9)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+                : null, // No gradient for inactive dots
+        boxShadow:
+            isActive
+                ? [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ]
+                : [],
       ),
     );
   }

@@ -1,70 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:nanniea/pages/home.dart';
 import 'package:nanniea/widgets/onboarding_card.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class OnboardingPage extends StatefulWidget {
+  const OnboardingPage({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  final List<Widget> _onboardingScreens = [
-    OnboardingCard(
-      image: "assets/kid1.png",
-      subtitle: "Geolocation",
-      title: "Discover",
-      description:
-          "Find the perfect nannies in your own neighborhood for your beloved child quickly and easily",
-    ),
-    OnboardingCard(
-      image: "assets/kid2.png",
-      subtitle: "Availability",
-      title: "Schedule",
-      description:
-          "Determine the right time between you and the nannies with choices you cannot imagine before",
-    ),
-    OnboardingCard(
-      image: "assets/kid3.png",
-      subtitle: "Always",
-      title: "Connected",
-      description:
-          "Stay update your child's activity wherever and whenever in real time with messages or video calls",
-    ),
-  ];
+class _OnboardingPageState extends State<OnboardingPage> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.round();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
+        padding: EdgeInsets.only(),
+        child: Container(
+          padding: EdgeInsets.only(bottom: 200),
+          child: PageView(
+            controller: _pageController,
+            children: [
+              Container(
+                color: Colors.red,
+                child: Center(child: Text("Page 1")),
+              ),
+              Container(
+                color: Colors.black,
+                child: Center(child: Text("Page 2")),
+              ),
+              Container(
+                color: Colors.blue,
+                child: Center(child: Text("Page 3")),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: Container(
         color: Colors.white,
+        padding: EdgeInsets.only(bottom: 50, top: 20), // Adjust padding
         child: Column(
+          mainAxisSize: MainAxisSize.min, // Ensure it doesn't take full height
           children: [
-            Expanded(child: PageView(children: _onboardingScreens)),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 180,
-                vertical: 80,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [for (int i = 0; i < 3; i++) _buildDot(i == 0)],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Skip",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: const Color(0xFF666666),
-                    fontSize: 17,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    height: 1.29,
-                  ),
+            OnboardingCard(),
+            SizedBox(height: 20), // Add spacing
+            TextButton(
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).pushReplacement(MaterialPageRoute(builder: (_) => Home()));
+              },
+              child: Text(
+                'Skip',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: const Color(0xFF666666),
+                  fontSize: 17,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w400,
+                  height: 1.29,
                 ),
               ),
             ),
@@ -73,18 +82,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-
-  Widget _buildDot(bool isActive) => Container(
-    margin: EdgeInsets.symmetric(horizontal: 4),
-    width: 7,
-    height: 7,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      color: isActive ? null : Colors.grey,
-      gradient:
-          isActive
-              ? LinearGradient(colors: [Color(0xFF68A9FF), Color(0xFFFF96C9)])
-              : null,
-    ),
-  );
 }
