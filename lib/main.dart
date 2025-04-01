@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nanniea/pages/firstpage.dart';
-
 void main() {
   runApp(const MyApp());
 }
