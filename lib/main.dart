@@ -18,9 +18,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Nanniea',
       theme: ThemeData(
-        brightness: Brightness.dark, // Set the brightness to dark
-        scaffoldBackgroundColor:
-            Colors.black, // Set the background color to black
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: const FirstPage(),
     );
