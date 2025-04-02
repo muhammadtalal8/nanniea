@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nanniea/pages/home.dart';
 import 'package:nanniea/widgets/onboarding_card.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -11,15 +9,17 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  final PageController _pageController =
+      PageController(); // PageController to track the current page
+  int _currentPage = 0; // Variable to store the current page index
 
   @override
   void initState() {
     super.initState();
     _pageController.addListener(() {
       setState(() {
-        _currentPage = _pageController.page!.round();
+        _currentPage =
+            _pageController.page!.round(); // Update the current page index
       });
     });
   }
@@ -33,7 +33,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: Container(
           padding: EdgeInsets.only(bottom: 200),
           child: PageView(
-            controller: _pageController,
+            controller: _pageController, // Attach the PageController
             children: [
               Container(
                 color: Colors.red,
@@ -57,26 +57,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min, // Ensure it doesn't take full height
           children: [
-            OnboardingCard(),
-            SizedBox(height: 20), // Add spacing
-            TextButton(
-              onPressed: () {
-                Navigator.of(
-                  context,
-                ).pushReplacement(MaterialPageRoute(builder: (_) => Home()));
-              },
-              child: Text(
-                'Skip',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xFF666666),
-                  fontSize: 17,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                  height: 1.29,
-                ),
-              ),
-            ),
+            SliderDots(
+              currentPage: _currentPage,
+              totalDots: 3,
+            ), // Pass the dynamic currentPage
           ],
         ),
       ),

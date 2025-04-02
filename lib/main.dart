@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nanniea/pages/firstpage.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,7 +19,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Nanniea',
       theme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.black,
       ),
       home: const FirstPage(),
     );
